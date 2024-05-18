@@ -1,0 +1,66 @@
+# 문제 링크 : https://school.programmers.co.kr/learn/courses/30/lessons/86971?language=java
+
+# 접근 방법
+
+# 풀이 코드
+class Solution {
+    public int solution(int n, int[][] wires) {
+        int answer = Integer.MAX_VALUE;
+
+        //idx에 해당하는 간선 정보를 제외한 나머지를 그래프에 모두 입력 후 bfs탐색
+        for (int idx = 0; idx < n-1; idx++) {
+            //초기 그래프 생성
+            List<List<Integer>> graph = new ArrayList<>();
+            for (int i = 0; i < n+1; i++) {
+                graph.add(new ArrayList<>());
+            }
+
+            //간선 정보 삽입
+            for (int i = 0; i < n-1; i++) {
+                //wires의 idx와 일치하는 부분은 스킵
+                if (i == idx) {
+                    continue;
+                }
+
+                //간선 정보 그래프에 삽입
+                graph.get(wires[i][0]).add(wires[i][1]);
+                graph.get(wires[i][1]).add(wires[i][0]);
+            }
+
+            //그래프의 각 노드를 탐색하며 연결된 노드가 있는 경우 bfs탐색
+            int tmp = 0;
+            for (int i = 1; i < n+1; i++) {
+                if (!graph.get(i).isEmpty()) {
+                    tmp = bfs(i, n, graph);
+                    break;
+                }
+            }
+
+            int difference = Math.abs((n - tmp) - tmp);
+            answer = Math.min(answer, difference);
+        }
+        return answer;
+    }
+
+    //node와 연결된 모든 다른 노드의 개수를 반환
+    public int bfs(int node, int n, List<List<Integer>> graph) {
+        boolean[] visited = new boolean[n+1];
+        Queue<Integer> queue = new ArrayDeque<>();
+        visited[node] = true;
+        queue.offer(node);
+        int cnt = 1;
+
+        while(!queue.isEmpty()) {
+            int cur = queue.poll();
+            for (int next : graph.get(cur)) {
+                if (!visited[next]) {
+                    queue.offer(next);
+                    visited[next] = true;
+                    cnt++;
+                }
+            }
+        }
+        System.out.println(cnt);
+        return cnt;
+    }
+}
