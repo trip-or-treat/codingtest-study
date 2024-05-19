@@ -1,37 +1,41 @@
 function solution(n, wires) {
-  var answer = Number.MAX_SAFE_INTEGER;
-  //트리 만들기
-  let tree = Array.from(Array(n + 1), () => []);
-  wires.map((element) => {
-    let [a, b] = element;
+  var answer = Infinity;
+  const tree = initializeTree(n, wires);
 
-    tree[a].push(b);
-    tree[b].push(a);
-  });
-
-  function searchTree(root, exceptNum) {
-    let count = 0;
-    let visit = [];
-    let queue = [root];
-    visit[root] = true;
-    while (queue.length) {
-      let index = queue.pop();
-      tree[index].forEach((element) => {
-        if (element !== exceptNum && visit[element] !== true) {
-          visit[element] = true;
-          queue.push(element);
-        }
-      });
-      count++;
-    }
-
-    return count;
+  for (const [v1, v2] of wires) {
+    answer = Math.min(answer, Math.abs(2 * bfs(v1, v2, tree) - n));
   }
 
-  // wires 값에 만든 함수에 값을 넣어 최솟값을 찾음.
-  wires.forEach((element) => {
-    let [a, b] = element;
-    answer = Math.min(answer, Math.abs(searchTree(a, b) - searchTree(b, a)));
-  });
   return answer;
+}
+
+// tree 초기화
+function initializeTree(n, wires) {
+  const tree = Array.from({ length: n + 1 }, () => []);
+
+  for (const [v1, v2] of wires) {
+    tree[v1].push(v2);
+    tree[v2].push(v1);
+  }
+
+  return tree;
+}
+
+function bfs(root, exceptNode, tree) {
+  let count = 0;
+  const queue = [root];
+  const visited = new Array(tree.length).fill(false);
+
+  do {
+    const current = queue.shift();
+    visited[current] = true;
+    for (const node of tree[current]) {
+      if (node !== exceptNode && visited[node] === false) {
+        queue.push(node);
+      }
+    }
+    count += 1;
+  } while (queue.length > 0);
+
+  return count;
 }
