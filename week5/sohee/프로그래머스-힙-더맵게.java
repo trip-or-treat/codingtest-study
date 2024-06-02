@@ -15,7 +15,6 @@ class Solution {
 
             int a = q.poll();
             int b = q.poll();
-
             int temp = a + b*2;
             q.add(temp);
 
