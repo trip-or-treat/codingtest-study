@@ -1,8 +1,8 @@
 # 문제 링크 : https://www.acmicpc.net/problem/2146
 
 # 접근 방법
-1. 각 섬을 구분지어 표시하는 bfs 실시
-2. 각 섬마다 bfs를 돌려 다른 섬과 맞닿는 최소 거리를 계산
+# 1. 각 섬을 구분지어 표시하는 bfs 실시
+# 2. 각 섬마다 bfs를 돌려 다른 섬과 맞닿는 최소 거리를 계산
 
 # 풀이 코드
 from collections import deque
