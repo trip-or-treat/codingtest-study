@@ -1,7 +1,9 @@
 # 문제 링크 : https://school.programmers.co.kr/learn/courses/30/lessons/60059
 
 # 접근 방법
-
+# 2차원 배열 시계방향 회전 꿀팁코드
+# def rotate2(arr):
+#     return list(zip(*arr[::-1]))
 
 # 풀이 코드
 def compare(board,key,x,y,M, N):
@@ -60,3 +62,4 @@ def rotate(key):
         for j in range(n):
             rotate_key[j][n-i-1] = key[i][j]
     return rotate_key
+
